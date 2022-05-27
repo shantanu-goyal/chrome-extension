@@ -1,5 +1,15 @@
 let networkStorage = {}
 let currentTab;
+let currentUrl;
+
+
+function getCurrentUrl() {
+    return currentUrl;
+}
+
+function setCurrentUrl(url) {
+    currentUrl = url;
+}
 
 function getCurrentTab() {
     return currentTab
@@ -21,5 +31,7 @@ export {
     getNetworkStorage,
     getCurrentTab,
     setNetworkStorage,
-    setCurrentTab
+    setCurrentTab,
+    getCurrentUrl,
+    setCurrentUrl
 }
