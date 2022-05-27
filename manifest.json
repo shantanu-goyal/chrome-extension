@@ -6,17 +6,17 @@
   "action":{
     "default_popup":"popup.html",
     "default_icon":{
-      "16":"./images/favicon.png",
-      "32":"./images/favicon.png",
-      "48":"./images/favicon.png",
-      "128":"./images/favicon.png"
+      "16":"./images/sprinklr.png",
+      "32":"./images/sprinklr.png",
+      "48":"./images/sprinklr.png",
+      "128":"./images/sprinklr.png"
     }
   },
   "icons":{
-      "16":"./images/favicon.png",
-      "32":"./images/favicon.png",
-      "48":"./images/favicon.png",
-      "128":"./images/favicon.png"
+      "16":"./images/sprinklr.png",
+      "32":"./images/sprinklr.png",
+      "48":"./images/sprinklr.png",
+      "128":"./images/sprinklr.png"
     },
   "permissions":[
     "storage",

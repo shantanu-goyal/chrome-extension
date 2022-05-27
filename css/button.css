@@ -8,13 +8,15 @@
 
 .container button{
   cursor: pointer;
+  width: 150px;
   margin: 0.5rem auto;
+  background-color: skyblue;
+  font-weight: bold;
 }
 
 .btn-disable
 {
   cursor: not-allowed;
   pointer-events: none;
-  color: #c0c0c0;
   background-color: #ffffff;
 }
