@@ -1,0 +1,19 @@
+table, th, td {
+  border: 1px solid;
+}
+
+table {
+  width: 100%;
+}
+
+td{
+  max-width: 500px;
+  word-break: break-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+table {
+  border-collapse: collapse;
+}
