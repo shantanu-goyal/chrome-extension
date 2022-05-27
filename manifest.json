@@ -3,9 +3,6 @@
   "description":"This is a demo of the Chrome extension",
   "version":"1.0",
   "manifest_version":3,
-  "background":{
-    "service_worker":"./background.js"
-  },
   "action":{
     "default_popup":"popup.html",
     "default_icon":{
@@ -22,6 +19,7 @@
       "128":"./images/favicon.png"
     },
   "permissions":[
+    "storage",
     "tabs",
     "webRequest"
   ],
