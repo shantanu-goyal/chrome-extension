@@ -1,8 +1,10 @@
 .container{
+  width: 300px;
   display: flex;
   flex-direction: column;
 }
 
 .container button{
+  cursor: pointer;
   margin: 0.5rem auto;
 }
