@@ -1,4 +1,4 @@
-import { sortTable } from "./report-utility.js";
+import { downloadAsJson, sortTable } from "./report-utility.js";
 let sharedData = JSON.parse(localStorage.getItem('networkStorage'));
 
 //Finding a particular string that ends with a particular string
@@ -6,17 +6,18 @@ function findStringEndsWith(string, substring) {
   return string.indexOf(substring, string.length - substring.length) !== -1;
 }
 
-// Timestamp to human readable date and time
-function getMilliseconds(timestamp) {
-  return new Date(timestamp).getMilliseconds();
-}
 
-function getSeconds(timestamp) {
-  return new Date(timestamp).getSeconds();
-}
+function msToTime(duration) {
+  var milliseconds = parseInt((duration % 1000) / 100),
+    seconds = Math.floor((duration / 1000) % 60),
+    minutes = Math.floor(((duration / (1000 * 60))+30) % 60),
+    hours = Math.floor(((duration / (1000 * 60 * 60))+5) % 24);
 
-function timestampToDate(timestamp) {
-  return 1000 * Number(getSeconds(timestamp)) + Number(getMilliseconds(timestamp));
+  hours = (hours < 10) ? "0" + hours : hours;
+  minutes = (minutes < 10) ? "0" + minutes : minutes;
+  seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+  return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
 }
 
 
@@ -32,6 +33,12 @@ function addSortingListener(){
     let index=Number(e.target.dataset.index);
     sortTable(index);
   });
+}
+
+
+function addDownloadButtonHandler(){
+  let button=document.querySelector('.download-button');
+  button.addEventListener('click',downloadAsJson);
 }
 
 
@@ -58,8 +65,8 @@ function renderReport() {
       tdReportId.innerText = item;
       tdUrl.innerText = networkStorage[item].url;
       tdStatus.innerText = networkStorage[item].status;
-      tdStartTime.innerText = timestampToDate(networkStorage[item].startTime);
-      tdEndTime.innerText = timestampToDate(networkStorage[item].endTime);
+      tdStartTime.innerText = msToTime(networkStorage[item].startTime);
+      tdEndTime.innerText = msToTime(networkStorage[item].endTime);
       tdDuration.innerText = round(networkStorage[item].duration);
       tr.appendChild(tdReportId);
       tr.appendChild(tdUrl);
@@ -71,7 +78,8 @@ function renderReport() {
     }
   }
   table.appendChild(tableFragment);
-  addSortingListener();
 }
 
 renderReport();
+addSortingListener();
+addDownloadButtonHandler();
