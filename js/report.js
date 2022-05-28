@@ -6,8 +6,16 @@ function findStringEndsWith(string, substring) {
 }
 
 // Timestamp to human readable date and time
-function timestampToDate(timestamp) {
+function getMilliseconds(timestamp) {
   return new Date(timestamp).getMilliseconds();
+}
+
+function getSeconds(timestamp) {
+  return new Date(timestamp).getSeconds();
+}
+
+function timestampToDate(timestamp) {
+  return 1000 * Number(getSeconds(timestamp)) + Number(getMilliseconds(timestamp));
 }
 
 
@@ -19,7 +27,7 @@ function round(value) {
 
 function renderReport() {
   let { currentUrl, networkStorage } = sharedData;
-  let table = document.querySelector('#network-request-table');
+  let table = document.querySelector('.table-body');
   let tableFragment = document.createDocumentFragment();
   let title = document.querySelector('.title');
 
