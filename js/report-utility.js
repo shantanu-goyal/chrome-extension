@@ -1,7 +1,9 @@
 let {networkStorage, currentTab, currentUrl} = JSON.parse(localStorage.getItem('networkStorage'));
+let currentHost = new URL(currentUrl).hostname.replace('www.', '');
 
-function findStringEndsWith(string, substring) {
-  return string.indexOf(substring, string.length - substring.length) !== -1;
+function isJSURL(url) {
+  let pathname = new URL(url).pathname
+  return pathname.substring(pathname.length - 3) === '.js'
 }
 
 function isDownloadableRow(requestId){
@@ -96,12 +98,11 @@ export function sortTable(n) {
 }
 
 function isValidRequest(showAllRequests, url){
-  return (showAllRequests || findStringEndsWith(url, '.js'))
+  return (showAllRequests || isJSURL(url))
 }
 
 function isValidScript(showAllScripts, hostname){
-  let currentHost = new URL(currentUrl).hostname
-  return (showAllScripts || currentHost !== hostname)
+  return (showAllScripts || hostname.indexOf(currentHost)===-1)
 }
 
 export function showRequests(requestType, scriptType){
