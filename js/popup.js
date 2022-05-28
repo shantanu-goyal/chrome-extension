@@ -19,6 +19,11 @@ function handleAnalyseButtonClick() {
     if(getCurrentTab()){
       setCurrentTab(null)
       analyseNetwork.innerText = 'Click To Analyse'
+      let currentUrl = getCurrentUrl();
+      let currentTab = getCurrentTab();
+      let networkStorage = getNetworkStorage();
+      localStorage.setItem('networkStorage', JSON.stringify({ currentUrl, currentTab, networkStorage }));
+      generateReport.classList.toggle('btn-disable');
       return
     }
     analyseNetwork.innerText = 'Click To Stop Analysis'
@@ -27,13 +32,6 @@ function handleAnalyseButtonClick() {
     setCurrentUrl(tabs[0].url)
     chrome.tabs.reload(tabs[0].id);
   });
-  setTimeout(() => {
-    let currentUrl = getCurrentUrl();
-    let currentTab = getCurrentTab();
-    let networkStorage = getNetworkStorage();
-    localStorage.setItem('networkStorage', JSON.stringify({ currentUrl, currentTab, networkStorage }));
-    generateReport.classList.toggle('btn-disable');
-  }, 10000)
 }
 
 function generateReportButtonClick() {
