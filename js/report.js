@@ -1,10 +1,7 @@
-import { downloadAsJson, sortTable } from "./report-utility.js";
+import { downloadAsJson, sortTable, downloadAsCSV , showRequests} from "./report-utility.js";
 let sharedData = JSON.parse(localStorage.getItem('networkStorage'));
 
 //Finding a particular string that ends with a particular string
-function findStringEndsWith(string, substring) {
-  return string.indexOf(substring, string.length - substring.length) !== -1;
-}
 
 
 function msToTime(duration) {
@@ -38,7 +35,21 @@ function addSortingListener(){
 
 function addDownloadButtonHandler(){
   let button=document.querySelector('.download-button');
-  button.addEventListener('click',downloadAsJson);
+  let downloadType = document.querySelector('#downloadType')
+  button.addEventListener('click',() => {
+    downloadType.value == 'JSON' ? downloadAsJson() : downloadAsCSV();
+  });
+}
+
+function addFilterListener(){
+  let scriptType = document.querySelector('#scriptType');
+  let requestType = document.querySelector('#requestType');
+  scriptType.addEventListener('change', (event) => {
+    showRequests(requestType.value, event.target.value)
+  })
+  requestType.addEventListener('change', (event) => {
+    showRequests(event.target.value, scriptType.value)
+  })
 }
 
 
@@ -51,8 +62,9 @@ function renderReport() {
   title.innerHTML += " " + currentUrl
 
   for (const item in networkStorage) {
-    if (findStringEndsWith(networkStorage[item].url, '.js')) {
+
       let tr = document.createElement('tr');
+      tr.setAttribute('request-id', item)
       let tdReportId = document.createElement('td');
       let tdUrl = document.createElement('td');
       let tdStatus = document.createElement('td');
@@ -64,6 +76,7 @@ function renderReport() {
       }
       tdReportId.innerText = item;
       tdUrl.innerText = networkStorage[item].url;
+      tdUrl.title = networkStorage[item].url;
       tdStatus.innerText = networkStorage[item].status;
       tdStartTime.innerText = msToTime(networkStorage[item].startTime);
       tdEndTime.innerText = msToTime(networkStorage[item].endTime);
@@ -75,7 +88,6 @@ function renderReport() {
       tr.appendChild(tdEndTime);
       tr.appendChild(tdDuration);
       tableFragment.appendChild(tr);
-    }
   }
   table.appendChild(tableFragment);
 }
@@ -83,3 +95,4 @@ function renderReport() {
 renderReport();
 addSortingListener();
 addDownloadButtonHandler();
+addFilterListener()

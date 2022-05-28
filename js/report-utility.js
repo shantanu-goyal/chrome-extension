@@ -1,12 +1,52 @@
-export function downloadAsJson(){
-  let {networkStorage} = JSON.parse(localStorage.getItem('networkStorage'));
-  var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(networkStorage));
+let {networkStorage, currentTab, currentUrl} = JSON.parse(localStorage.getItem('networkStorage'));
+
+function findStringEndsWith(string, substring) {
+  return string.indexOf(substring, string.length - substring.length) !== -1;
+}
+
+function isDownloadableRow(requestId){
+  return document.querySelector(`[request-id='${requestId}']`).style.display !== 'none'
+}
+
+function getCSV(){
+  let csvArray = [];
+  let row = ['Request Id',	'Url',	'Status',	'Start Time',	'End Time',	'Duration (ms)']
+  csvArray.push(row);
+  for(const key in networkStorage){
+    if(!isDownloadableRow(key)) continue
+    row = [key]
+    for(const itemKey in networkStorage[key]){
+      row.push(networkStorage[key][itemKey])
+    }
+    csvArray.push(row);
+  }
+  return csvArray;
+}
+
+function downloadFile(filename, downloadURL){
   let downloadButtonAnchorTag=document.createElement('a')
-  downloadButtonAnchorTag.setAttribute("href",     dataStr);
-  downloadButtonAnchorTag.setAttribute("download", "report.json");
+  downloadButtonAnchorTag.setAttribute("href", downloadURL);
+  downloadButtonAnchorTag.setAttribute("download", filename);
   document.body.appendChild(downloadButtonAnchorTag);
   downloadButtonAnchorTag.click();
   downloadButtonAnchorTag.remove();
+}
+
+export function downloadAsCSV(){
+  const csvArray = getCSV()
+  const csvContent = "data:text/csv;charset=utf-8," + csvArray.map(e => e.join(",")).join("\n");
+  const encodedURI = encodeURI(csvContent)
+  downloadFile('report.csv', encodedURI)
+}
+
+export function downloadAsJson(){
+  let downloadableContent = {}
+  for(const key in networkStorage){
+    if(!isDownloadableRow(key))continue
+    downloadableContent[key] = networkStorage[key]
+  }
+  let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(downloadableContent));
+  downloadFile('report.json', dataStr)
 }
 
 
@@ -53,4 +93,30 @@ export function sortTable(n) {
         }
       }
     }
+}
+
+function isValidRequest(showAllRequests, url){
+  return (showAllRequests || findStringEndsWith(url, '.js'))
+}
+
+function isValidScript(showAllScripts, hostname){
+  let currentHost = new URL(currentUrl).hostname
+  return (showAllScripts || currentHost !== hostname)
+}
+
+export function showRequests(requestType, scriptType){
+  let rows = document.querySelector('.styled-table').rows
+  let showAllRequests = requestType === 'All'
+  let showAllScripts = scriptType === 'All'
+  
+  for(let i=1;i<rows.length;i++){
+    let url = rows[i].children[1].innerText
+    let hostname = new URL(url).hostname
+    if(isValidRequest(showAllRequests, url) && isValidScript(showAllScripts, hostname)){
+      rows[i].style.display = ''
+    }
+    else{
+      rows[i].style.display = 'none'
+    }
+  }
 }
