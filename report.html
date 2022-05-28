@@ -5,21 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="js/report.js" type="module"></script>
+    <script src="js/report-utility.js" type="module"></script>
     <link rel="stylesheet" href="css/report.css" />
     <title>Network Report</title>
   </head>
   <body>
     <div class="showcase"></div>
     <h1 class="title">Network Report for:-</h1>
+    <div class="filters">
+      <select>
+        <option>All</option>
+        <option>JavaScript</option>
+      </select>
+      <select>
+        <option>All</option>
+        <option>3rd Party</option>
+      </select>
+      <button>Download Data</button>
+    </div>
     <table class="styled-table">
       <thead>
-        <tr>
-          <th>Request Id</th>
-          <th>Url</th>
-          <th>Status</th>
-          <th>Start Time</th>
-          <th>End Time</th>
-          <th>Duration</th>
+        <tr class="header-row">
+          <th data-index="0">Request Id</th>
+          <th data-index="1">Url</th>
+          <th data-index="2">Status</th>
+          <th data-index="3">Start Time</th>
+          <th data-index="4">End Time</th>
+          <th data-index="5">Duration (ms)</th>
         </tr>
       </thead>
       <tbody class="table-body"></tbody>

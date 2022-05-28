@@ -1,3 +1,4 @@
+import { sortTable } from "./report-utility.js";
 let sharedData = JSON.parse(localStorage.getItem('networkStorage'));
 
 //Finding a particular string that ends with a particular string
@@ -22,6 +23,15 @@ function timestampToDate(timestamp) {
 //Round of to 2 decimal places
 function round(value) {
   return Math.round(value * 100) / 100;
+}
+
+
+function addSortingListener(){
+  let headerRow=document.querySelector('.header-row');
+  headerRow.addEventListener('click',function (e){
+    let index=Number(e.target.dataset.index);
+    sortTable(index);
+  });
 }
 
 
@@ -50,7 +60,7 @@ function renderReport() {
       tdStatus.innerText = networkStorage[item].status;
       tdStartTime.innerText = timestampToDate(networkStorage[item].startTime);
       tdEndTime.innerText = timestampToDate(networkStorage[item].endTime);
-      tdDuration.innerText = round(networkStorage[item].duration) + ' ms';
+      tdDuration.innerText = round(networkStorage[item].duration);
       tr.appendChild(tdReportId);
       tr.appendChild(tdUrl);
       tr.appendChild(tdStatus);
@@ -61,6 +71,7 @@ function renderReport() {
     }
   }
   table.appendChild(tableFragment);
+  addSortingListener();
 }
 
 renderReport();
