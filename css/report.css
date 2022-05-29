@@ -5,6 +5,33 @@ body{
   align-items: center;
 }
 
+body .filters {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 800px;
+    height: 200px;
+}
+
+body .filters *{
+    margin: .5rem;
+    height: 30px;
+   
+}
+
+body .filters label{
+    font-weight: bold;
+}
+
+body .filters label #search-bar{
+    width: 300px;
+    /* padding: 12px 20px; */
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+
 .showcase{
   position:absolute;
   top:0;
@@ -60,7 +87,6 @@ body{
     border-bottom: 2px solid #107EFF;
 }
 
-.styled-table tbody tr.active-row {
-    font-weight: bold;
-    color: #009879;
-}
+
+
+

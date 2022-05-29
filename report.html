@@ -13,20 +13,34 @@
     <div class="showcase"></div>
     <h1 class="title">Network Report for:-</h1>
     <div class="filters">
-      <input type="text" id="search-bar" placeholder="Search" />
-      <select id="requestType">
-        <option>All</option>
-        <option>JavaScript</option>
-      </select>
-      <select id="scriptType">
-        <option>All</option>
-        <option>3rd Party</option>
-      </select>
-      <select id="downloadType">
-        <option>JSON</option>
-        <option>CSV</option>
-      </select>
-      <button class="download-button">Download Data</button>
+      <div>
+        <label>
+          Request Type:
+          <select id="requestType">
+            <option>All</option>
+            <option>JavaScript</option>
+          </select>
+        </label>
+        <label
+          >Script Type:
+          <select id="scriptType">
+            <option>All</option>
+            <option>3rd Party</option>
+          </select>
+        </label>
+      </div>
+      <label
+        >Download Data:
+        <select id="downloadType">
+          <option>JSON</option>
+          <option>CSV</option>
+        </select>
+        <button class="download-button">Download Data</button>
+      </label>
+      <label
+        >Search:
+        <input type="text" id="search-bar" placeholder="Search" />
+      </label>
     </div>
     <table class="styled-table">
       <thead>

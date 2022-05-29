@@ -123,7 +123,11 @@ export function showRequests(requestType, scriptType) {
 }
 
 export function handleSearchInput() {
-  let searchInput = document.getElementById('search-bar')
+  let searchInput = document.getElementById('search-bar');
+  let scriptType = document.getElementById('scriptType');
+  let requestType = document.getElementById('requestType');
+  scriptType.value = "All";
+  requestType.value = "All";
   let searchValue = searchInput.value.toLowerCase()
   let rows = document.querySelector('.styled-table').rows
   for (let i = 1; i < rows.length; i++) {
