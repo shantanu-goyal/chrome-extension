@@ -169,3 +169,15 @@ option{
     background-color: skyblue;
     font-weight: bold;
 }
+
+
+.display-graph{
+    background-color: #dc3545;
+    color:#ffffff;
+    width: 200px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    padding: 10px 5px;
+}

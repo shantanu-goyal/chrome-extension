@@ -1,4 +1,4 @@
-import { downloadAsJson, sortTable, downloadAsCSV, showRequests } from "./report-utility.js";
+import { downloadAsJson, sortTable, downloadAsCSV, showRequests, round } from "./report-utility.js";
 let sharedData = JSON.parse(localStorage.getItem('networkStorage'));
 
 
@@ -14,13 +14,6 @@ function msToTime(duration) {
 
   return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
 }
-
-
-//Round of to 2 decimal places
-function round(value) {
-  return Math.round(value * 100) / 100;
-}
-
 
 function addSortingListener() {
   let headerRow = document.querySelector('.header-row');
@@ -64,6 +57,25 @@ function addFilterListener() {
   })
 }
 
+function addDisplayGraphListener() {
+  let displayGraph = document.querySelector('.display-graph');
+  displayGraph.addEventListener('click', () => {
+    let table = document.querySelector('.styled-table');
+    let rows = table.rows;
+    let graphData = [];
+    for (let i = 1; i < rows.length; i++) {
+      if (rows[i].style.display !== 'none' && rows[i].cells[2] !== 'Pending' && rows[i].cells[2] !== 'error') {
+        graphData.push({
+          'url': rows[i].cells[1].innerText,
+          'duration': rows[i].cells[5].innerText
+        });
+      }
+    }
+    localStorage.setItem('graphData', JSON.stringify(graphData));
+    window.location.href = './graph.html';
+  });
+};
+
 
 function renderReport() {
   let { currentUrl, networkStorage } = sharedData;
@@ -106,3 +118,4 @@ renderReport();
 addSortingListener();
 addDownloadButtonHandler();
 addFilterListener()
+addDisplayGraphListener();

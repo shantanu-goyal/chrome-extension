@@ -121,3 +121,7 @@ export function showRequests(requestType, scriptType, searchValue) {
     }
   }
 }
+
+export function round(value) {
+  return Math.round(value * 100) / 100;
+}
