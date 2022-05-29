@@ -1,35 +1,75 @@
-body{
+body {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+body .wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+}
+
 body .filters {
+    margin-top: 50px;
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    flex-flow: left;
     width: 800px;
     height: 200px;
+    margin-bottom: 30px;
 }
 
 body .filters *{
-    margin: .5rem;
-    height: 30px;
+    margin: 0, .5rem;
+    height: 40px;
    
 }
 
 body .filters label{
     font-weight: bold;
+    font-size: 1.2em;
 }
 
 body .filters label #search-bar{
-    width: 300px;
-    /* padding: 12px 20px; */
-    margin: 8px 0;
+    width: 490px;
+    margin: 20px 0px 0px 20px;
     box-sizing: border-box;
 }
+
+.filters div{
+    display: flex;
+    flex-direction: row;
+    gap:30px;
+    padding: 0;
+    margin: 20px 0px;
+}
+
+.filters div label select{
+    width:150px
+}
+.filters label select {
+    margin: 0px 0px 0px 20px;
+}
+
+option{
+    font-size: 1rem;
+}
+
+.download-button{
+    background-color: #5cb85c;
+    color:#ffffff;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    padding: 10px 5px;
+    margin: 0px 20px;
+}
+
 
 
 .showcase{
@@ -51,7 +91,8 @@ body .filters label #search-bar{
     margin: 25px 0;
     font-size: 0.9em;
     font-family: sans-serif;
-    min-width: 400px;
+    min-width: 1000px;
+    max-width: 1000px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -59,6 +100,8 @@ body .filters label #search-bar{
     background-color: #107EFF;
     color: #ffffff;
     text-align: left;
+    cursor: pointer;
+    font-size: 0.6rem;
 }
 
 .styled-table th,

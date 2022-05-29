@@ -12,48 +12,50 @@
   <body>
     <div class="showcase"></div>
     <h1 class="title">Network Report for:-</h1>
-    <div class="filters">
-      <div>
-        <label>
-          Request Type:
-          <select id="requestType">
-            <option>All</option>
-            <option>JavaScript</option>
+    <div class="wrapper">
+      <div class="filters">
+        <div>
+          <label>
+            Request Type:
+            <select id="requestType">
+              <option>All</option>
+              <option>JavaScript</option>
+            </select>
+          </label>
+          <label
+            >Script Type:
+            <select id="scriptType">
+              <option>All</option>
+              <option>3rd Party</option>
+            </select>
+          </label>
+        </div>
+        <label
+          >Download Data:
+          <select id="downloadType">
+            <option>JSON</option>
+            <option>CSV</option>
           </select>
+          <button class="download-button">Download Data</button>
         </label>
         <label
-          >Script Type:
-          <select id="scriptType">
-            <option>All</option>
-            <option>3rd Party</option>
-          </select>
+          >Search:
+          <input type="text" id="search-bar" placeholder="Search" />
         </label>
       </div>
-      <label
-        >Download Data:
-        <select id="downloadType">
-          <option>JSON</option>
-          <option>CSV</option>
-        </select>
-        <button class="download-button">Download Data</button>
-      </label>
-      <label
-        >Search:
-        <input type="text" id="search-bar" placeholder="Search" />
-      </label>
+      <table class="styled-table">
+        <thead>
+          <tr class="header-row">
+            <th data-index="0">Request Id</th>
+            <th data-index="1">Url</th>
+            <th data-index="2">Status</th>
+            <th data-index="3">Start Time</th>
+            <th data-index="4">End Time</th>
+            <th data-index="5">Duration (ms)</th>
+          </tr>
+        </thead>
+        <tbody class="table-body"></tbody>
+      </table>
     </div>
-    <table class="styled-table">
-      <thead>
-        <tr class="header-row">
-          <th data-index="0">Request Id</th>
-          <th data-index="1">Url</th>
-          <th data-index="2">Status</th>
-          <th data-index="3">Start Time</th>
-          <th data-index="4">End Time</th>
-          <th data-index="5">Duration (ms)</th>
-        </tr>
-      </thead>
-      <tbody class="table-body"></tbody>
-    </table>
   </body>
 </html>
