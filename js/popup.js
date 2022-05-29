@@ -4,7 +4,6 @@ const duplicateTab = document.querySelector('#duplicateTab');
 const analyseNetwork = document.querySelector('#analyseNetwork');
 const generateReport = document.querySelector('#generateReport');
 
-
 function handleDuplicateButtonClick() {
   chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
     chrome.tabs.create({
@@ -15,8 +14,8 @@ function handleDuplicateButtonClick() {
 
 function handleAnalyseButtonClick() {
   chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
-    if(!tabs || !tabs.length)return;
-    if(getCurrentTab()){
+    if (!tabs || !tabs.length) return;
+    if (getCurrentTab()) {
       setCurrentTab(null)
       analyseNetwork.innerText = 'Click To Analyse'
       let currentUrl = getCurrentUrl();
@@ -40,8 +39,6 @@ function generateReportButtonClick() {
   });
 
 }
-
-
 duplicateTab.addEventListener('click', handleDuplicateButtonClick);
 analyseNetwork.addEventListener('click', handleAnalyseButtonClick);
 generateReport.addEventListener('click', generateReportButtonClick);

@@ -9,15 +9,18 @@
 
 .container button{
   cursor: pointer;
-  width: 150px;
+  width: 125px;
+  border-radius: 5px;
+  border: none;
   height: 50px;
+  color: white;
   margin: 0.5rem auto;
-  background-color: skyblue;
+  background-color: #107EFF;;
   font-weight: bold;
 }
 
 .container  button:hover{
-  background-color: #00bfff;
+  background-color: #5cb85c;
 }
 
 .btn-disable
