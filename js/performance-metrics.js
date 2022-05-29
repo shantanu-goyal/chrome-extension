@@ -13,14 +13,14 @@ function renderPerformanceMetrics() {
   let performance = JSON.parse(localStorage.getItem('performance'));
   if (performance.length > 0) {
     performance = performance[0];
-    request.innerHTML += ":<br> " + Math.abs(round(performance.responseStart - performance.requestStart));
-    response.innerHTML += ":<br> " + Math.abs(round(performance.responseEnd - performance.responseStart));
-    processing.innerHTML += ":<br> " + Math.abs(round(performance.domComplete - performance.domInteractive));
-    onLoad.innerHTML += ":<br> " + Math.abs(round(performance.loadEventStart - performance.loadEventEnd));
-    tcp.innerHTML += ":<br> " + Math.abs(round(performance.connectEnd - performance.connectStart));
-    dns.innerHTML += ":<br> " + Math.abs(round(performance.domainLookupEnd - performance.domainLookupStart));
-    appCache.innerHTML += ":<br> " + Math.abs(round(performance.fetchStart - performance.domainLookupStart));
-    redirect.innerHTML += ":<br> " + Math.abs(round(performance.redirectEnd - performance.redirectStart));
+    request.innerHTML = round(performance.requestStart) + "ms";
+    response.innerHTML = round(performance.responseStart) + "ms";
+    processing.innerHTML = round(performance.responseEnd) + "ms";
+    onLoad.innerHTML = round(performance.loadEventStart) + "ms";
+    tcp.innerHTML = round(performance.connectStart) + "ms";
+    dns.innerHTML = round(performance.domainLookupStart) + "ms";
+    appCache.innerHTML = round(performance.fetchStart) + "ms";
+    redirect.innerHTML = round(performance.redirectStart) + "ms";
     console.log(performance);
   }
 }
