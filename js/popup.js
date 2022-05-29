@@ -15,17 +15,7 @@ function handleDuplicateButtonClick() {
 function handleAnalyseButtonClick() {
   chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
     if (!tabs || !tabs.length) return;
-    if (getCurrentTab()) {
-      setCurrentTab(null)
-      analyseNetwork.innerText = 'Click To Analyse'
-      let currentUrl = getCurrentUrl();
-      let currentTab = getCurrentTab();
-      let networkStorage = getNetworkStorage();
-      localStorage.setItem('networkStorage', JSON.stringify({ currentUrl, currentTab, networkStorage }));
-      generateReport.classList.toggle('btn-disable');
-      return
-    }
-    analyseNetwork.innerText = 'Click To Stop Analysis'
+    analyseNetwork.classList.toggle('btn-disable')
     setCurrentTab(tabs[0].id)
     setNetworkStorage({})
     setCurrentUrl(tabs[0].url)
@@ -42,3 +32,14 @@ function generateReportButtonClick() {
 duplicateTab.addEventListener('click', handleDuplicateButtonClick);
 analyseNetwork.addEventListener('click', handleAnalyseButtonClick);
 generateReport.addEventListener('click', generateReportButtonClick);
+
+chrome.runtime.onMessage.addListener((req, sender, res) => {
+  console.log(req.performance)
+  let currentUrl = getCurrentUrl();
+  let currentTab = getCurrentTab();
+  let networkStorage = getNetworkStorage();
+  let performance = req.performance
+  localStorage.setItem('networkStorage', JSON.stringify({ currentUrl, currentTab, networkStorage }));
+  localStorage.setItem('performance', JSON.stringify(performance))
+  generateReport.classList.toggle('btn-disable');
+})
