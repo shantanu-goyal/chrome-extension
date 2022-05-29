@@ -47,6 +47,25 @@ function addFilterListener() {
   })
 }
 
+function addDisplayGraphListener() {
+  let displayGraph = document.querySelector('.display-graph');
+  displayGraph.addEventListener('click', () => {
+    let table = document.querySelector('.styled-table');
+    let rows = table.rows;
+    let graphData = [];
+    for (let i = 1; i < rows.length; i++) {
+      if (rows[i].style.display !== 'none' && rows[i].cells[2] !== 'Pending' && rows[i].cells[2] !== 'error') {
+        graphData.push({
+          'url': rows[i].cells[1].innerText,
+          'duration': rows[i].cells[5].innerText
+        });
+      }
+    }
+    localStorage.setItem('graphData', JSON.stringify(graphData));
+    window.location.href = './graph.html';
+  });
+};
+
 
 function renderReport() {
   let { currentUrl, networkStorage } = sharedData;
@@ -89,3 +108,4 @@ renderReport();
 addSortingListener();
 addDownloadButtonHandler();
 addFilterListener()
+addDisplayGraphListener();
