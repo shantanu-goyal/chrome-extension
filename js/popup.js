@@ -37,9 +37,13 @@ chrome.runtime.onMessage.addListener((req, sender, res) => {
   console.log(req.performance)
   let currentUrl = getCurrentUrl();
   let currentTab = getCurrentTab();
-  let networkStorage = getNetworkStorage();
   let performance = req.performance
-  localStorage.setItem('networkStorage', JSON.stringify({ currentUrl, currentTab, networkStorage }));
-  localStorage.setItem('performance', JSON.stringify(performance))
-  generateReport.classList.toggle('btn-disable');
-})
+  localStorage.setItem('performance', JSON.stringify(performance));
+  setTimeout(() => {
+    let networkStorage = getNetworkStorage();
+    localStorage.setItem('networkStorage', JSON.stringify({ currentUrl, currentTab, networkStorage }));
+    generateReport.classList.toggle('btn-disable');
+  }, 3000);
+});
+
+

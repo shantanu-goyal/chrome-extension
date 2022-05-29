@@ -18,6 +18,7 @@
     </header>
     <div class="wrapper">
       <div class="filters">
+        <h2>Filters</h2>
         <div>
           <label>
             Request Type:
@@ -33,19 +34,30 @@
               <option>3rd Party</option>
             </select>
           </label>
+          <label
+            >Download Data:
+            <select id="downloadType">
+              <option>JSON</option>
+              <option>CSV</option>
+            </select>
+            <button class="download-button">Download Data</button>
+          </label>
         </div>
-        <label
-          >Download Data:
-          <select id="downloadType">
-            <option>JSON</option>
-            <option>CSV</option>
-          </select>
-          <button class="download-button">Download Data</button>
-        </label>
-        <label
-          >Search:
-          <input type="text" id="search-bar" placeholder="Search" />
-        </label>
+        <input type="text" id="search-bar" placeholder="Search" />
+      </div>
+      <div class="graph-wrapper">
+        <h2>Performance Metrics</h2>
+        <div class="graph">
+          <div class="prompt-for-unload">Prompt for Unload</div>
+          <div class="redirect">Redirect</div>
+          <div class="app-cache">App Cache</div>
+          <div class="dns">DNS</div>
+          <div class="tcp">TCP</div>
+          <div class="request">Request</div>
+          <div class="response">Response</div>
+          <div class="processing">Processing</div>
+          <div class="on-load">On Load</div>
+        </div>
       </div>
       <table class="styled-table">
         <thead>

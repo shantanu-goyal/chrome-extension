@@ -1,5 +1,5 @@
 import { NETWORK_FILTERS } from "./constants.js";
-import { getCurrentTab, setNetworkStorage, getNetworkStorage} from "./data.js";
+import { getCurrentTab, setNetworkStorage, getNetworkStorage } from "./data.js";
 
 function beforeRequestEventHandler(details) {
   const { tabId, url, timeStamp, requestId } = details;
@@ -8,16 +8,16 @@ function beforeRequestEventHandler(details) {
   }
   const networkStorage = getNetworkStorage()
   networkStorage[requestId] = {
-      url,
-      startTime: timeStamp,
-      status: 'Pending'
+    url,
+    startTime: timeStamp,
+    status: 'Pending'
   }
-  console.clear()
-  console.table(networkStorage, ['url', 'status','startTime', 'endTime','duration'])
-  setNetworkStorage(networkStorage) 
+  // console.clear()
+  // console.table(networkStorage, ['url', 'status','startTime', 'endTime','duration'])
+  setNetworkStorage(networkStorage)
 }
 
-function completedRequestHandler(details) { 
+function completedRequestHandler(details) {
   const { tabId, timeStamp, requestId } = details;
   if (tabId !== getCurrentTab()) {
     return;
@@ -31,10 +31,10 @@ function completedRequestHandler(details) {
   });
   // console.clear()
   // console.table(networkStorage, ['url', 'status','startTime', 'endTime', 'duration'])
-  setNetworkStorage(networkStorage) 
+  setNetworkStorage(networkStorage)
 }
 
-function errorOccuredHandler(details){
+function errorOccuredHandler(details) {
   const { tabId, requestId } = details;
   if (tabId !== getCurrentTab()) {
     return;
@@ -47,7 +47,7 @@ function errorOccuredHandler(details){
   });
   // console.clear()
   // console.table(networkStorage, ['url', 'status','startTime', 'endTime', 'duration'])
-  setNetworkStorage(networkStorage) 
+  setNetworkStorage(networkStorage)
 }
 
 chrome.webRequest.onBeforeRequest.addListener(beforeRequestEventHandler, NETWORK_FILTERS);
