@@ -94,6 +94,14 @@ function renderReport() {
   table.appendChild(tableFragment);
 }
 
+function initiatePerformanceWorker(){
+  const worker = new Worker('./worker.js')
+  worker.onmessage(_ => {
+    let performance = localStorage.getItem('performance');
+    console.log(performance)
+  }) 
+}
+
 renderReport();
 addSortingListener();
 addDownloadButtonHandler();

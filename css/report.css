@@ -74,20 +74,18 @@ option{
     margin: 0px 20px;
 }
 
-
-
-.showcase{
-  position:absolute;
-  top:0;
-  left:0;
-  width: 100%;
-  height: 100%;
-  background-image: url('../images/sprinklr.png');
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.2;
-  z-index: -1;
+.showcase {
+    position: sticky;
+    top: 0;
+    margin-bottom: -100vh;
+    width: 100vw;
+    height: 100vh;
+    background-image: url(../images/sprinklr.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.2;
+    z-index: -1;
 }
 
 .styled-table {
