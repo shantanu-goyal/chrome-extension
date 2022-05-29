@@ -1,4 +1,4 @@
-import { downloadAsJson, sortTable, downloadAsCSV, showRequests, handleSearchInput } from "./report-utility.js";
+import { downloadAsJson, sortTable, downloadAsCSV, showRequests } from "./report-utility.js";
 let sharedData = JSON.parse(localStorage.getItem('networkStorage'));
 
 
@@ -39,18 +39,28 @@ function addDownloadButtonHandler() {
   });
 }
 
+function debounce(func, timeout = 300){
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { func.apply(this, args); }, timeout);
+  };
+}
+
 function addFilterListener() {
   let scriptType = document.querySelector('#scriptType');
   let requestType = document.querySelector('#requestType');
   let searchInput = document.querySelector('#search-bar');
 
-  searchInput.addEventListener('keyup', handleSearchInput);
+  searchInput.addEventListener('keyup', (event) => {
+    debounce(() => showRequests(requestType.value, scriptType.value, event.target.value))();
+  });
 
   scriptType.addEventListener('change', (event) => {
-    showRequests(requestType.value, event.target.value)
+    showRequests(requestType.value, event.target.value, searchInput.value)
   })
   requestType.addEventListener('change', (event) => {
-    showRequests(event.target.value, scriptType.value)
+    showRequests(event.target.value, scriptType.value, searchInput.value)
   })
 }
 
