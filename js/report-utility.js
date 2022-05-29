@@ -115,22 +115,21 @@ export function showRequests(requestType, scriptType) {
     let hostname = new URL(url).hostname
     if (isValidRequest(showAllRequests, url) && isValidScript(showAllScripts, hostname)) {
       rows[i].style.display = ''
+      rows[i].setAttribute('filteredRow', true)
     }
     else {
       rows[i].style.display = 'none'
+      rows[i].removeAttribute('filteredRow')
     }
   }
 }
 
 export function handleSearchInput() {
   let searchInput = document.getElementById('search-bar');
-  let scriptType = document.getElementById('scriptType');
-  let requestType = document.getElementById('requestType');
-  scriptType.value = "All";
-  requestType.value = "All";
   let searchValue = searchInput.value.toLowerCase()
   let rows = document.querySelector('.styled-table').rows
   for (let i = 1; i < rows.length; i++) {
+    if(!rows[i].getAttribute('filteredRow')) continue
     let url = rows[i].children[1].innerText
     let hostname = new URL(url).hostname
     if (url.toLowerCase().indexOf(searchValue) !== -1 || hostname.toLowerCase().indexOf(searchValue) !== -1) {
