@@ -20,8 +20,15 @@
     },
   "permissions":[
     "storage",
+    "activeTab",
     "tabs",
     "webRequest"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["./js/content-script.js"]
+    }
   ],
   "host_permissions": [
     "<all_urls>"

@@ -7,7 +7,7 @@ const generateReport = document.querySelector('#generateReport');
 function handleDuplicateButtonClick() {
   chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
     chrome.tabs.create({
-      url: tabs[0].url
+      url: tabs[0].url,
     });
   });
 }
