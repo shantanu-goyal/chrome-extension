@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="js/report.js" type="module"></script>
     <script src="js/report-utility.js" type="module"></script>
+    <script src="js/performance-metrics.js" type="module"></script>
     <link rel="stylesheet" href="css/report.css" />
     <title>Network Report</title>
   </head>
@@ -20,15 +21,15 @@
       <div class="graph-wrapper">
         <h2>Performance Metrics</h2>
         <div class="graph">
-          <div class="prompt-for-unload">Prompt for Unload</div>
-          <div class="redirect">Redirect</div>
-          <div class="app-cache">App Cache</div>
-          <div class="dns">DNS</div>
-          <div class="tcp">TCP</div>
-          <div class="request">Request</div>
-          <div class="response">Response</div>
-          <div class="processing">Processing</div>
-          <div class="on-load">On Load</div>
+          <div id="prompt-for-unload">Prompt for Unload</div>
+          <div id="redirect">Redirect</div>
+          <div id="app-cache">App Cache</div>
+          <div id="dns">DNS</div>
+          <div id="tcp">TCP</div>
+          <div id="request">Request</div>
+          <div id="response">Response</div>
+          <div id="processing">Processing</div>
+          <div id="on-load">On Load</div>
         </div>
       </div>
       <div class="filters">

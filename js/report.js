@@ -1,4 +1,4 @@
-import { downloadAsJson, sortTable, downloadAsCSV, showRequests, handleSearchInput } from "./report-utility.js";
+import { downloadAsJson, sortTable, downloadAsCSV, showRequests, handleSearchInput, round } from "./report-utility.js";
 let sharedData = JSON.parse(localStorage.getItem('networkStorage'));
 
 
@@ -14,13 +14,6 @@ function msToTime(duration) {
 
   return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
 }
-
-
-//Round of to 2 decimal places
-function round(value) {
-  return Math.round(value * 100) / 100;
-}
-
 
 function addSortingListener() {
   let headerRow = document.querySelector('.header-row');
