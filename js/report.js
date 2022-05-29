@@ -60,11 +60,8 @@ function renderReport() {
   let table = document.querySelector('.table-body');
   let tableFragment = document.createDocumentFragment();
   let title = document.querySelector('.title');
-
   title.innerHTML += " " + currentUrl
-
   for (const item in networkStorage) {
-
     let tr = document.createElement('tr');
     tr.setAttribute('request-id', item)
     let tdReportId = document.createElement('td');
