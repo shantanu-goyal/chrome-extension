@@ -129,7 +129,7 @@ export function handleSearchInput() {
   let searchValue = searchInput.value.toLowerCase()
   let rows = document.querySelector('.styled-table').rows
   for (let i = 1; i < rows.length; i++) {
-    if(!rows[i].getAttribute('filteredRow')) continue
+    if(!rows[i].getAttribute('filteredRow') && (rows[i].getAttribute('filteredRow')!=undefined)) continue;
     let url = rows[i].children[1].innerText
     let hostname = new URL(url).hostname
     if (url.toLowerCase().indexOf(searchValue) !== -1 || hostname.toLowerCase().indexOf(searchValue) !== -1) {
