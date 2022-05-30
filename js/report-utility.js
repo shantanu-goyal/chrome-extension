@@ -1,7 +1,7 @@
 let { networkStorage, currentUrl } = JSON.parse(localStorage.getItem('networkStorage'));
-
-//Specifies the value of the current hostname
-let currentHost = new URL(currentUrl).hostname.replace('www.', '');
+import {thirdPartyWeb} from '../third-party-web/entity-finder-api.js'
+let mainDocumentEntity = thirdPartyWeb.getEntity(currentUrl)
+console.log(currentUrl,mainDocumentEntity)
 
 /**
   * Checks if the url is a javascript file or not
@@ -11,7 +11,15 @@ let currentHost = new URL(currentUrl).hostname.replace('www.', '');
   */
 function isJSURL(url) {
   let pathname = new URL(url).pathname
-  return pathname.substring(pathname.length - 3) === '.js'
+  return /(\/|\.)js$/.test(pathname)
+}
+
+function isThirdParty(url) {
+  const entity = thirdPartyWeb.getEntity(url);
+  if (!entity) return false;
+  console.log(url, entity)
+  if (entity === mainDocumentEntity) return false;
+  return true;
 }
 
 
@@ -157,12 +165,11 @@ function isValidRequest(showAllRequests, url) {
 /**Function to show/hide the scripts based on the hostname
  * 
  * @param {Boolean} showAllScripts
- * @param {String} hostname
+ * @param {String} url
  * @return {Boolean}
  */
-
-function isValidScript(showAllScripts, hostname) {
-  return (showAllScripts || hostname.indexOf(currentHost) === -1)
+function isValidScript(showAllScripts, url) {
+  return (showAllScripts || isThirdParty(url))
 }
 
 
@@ -181,8 +188,7 @@ export function showRequests(requestType, scriptType, searchValue) {
   let showAllScripts = scriptType === 'All'
   for (let i = 1; i < rows.length; i++) {
     let url = rows[i].children[1].innerText
-    let hostname = new URL(url).hostname
-    if (isValidRequest(showAllRequests, url) && isValidScript(showAllScripts, hostname) && url.toLowerCase().indexOf(searchValue) !== -1) {
+    if (isValidRequest(showAllRequests, url) && isValidScript(showAllScripts, url) && url.toLowerCase().indexOf(searchValue) !== -1) {
       rows[i].style.display = ''
     }
     else {

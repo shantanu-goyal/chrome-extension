@@ -73,7 +73,6 @@ generateReport.addEventListener('click', generateReportButtonClick);
   */
 
 chrome.runtime.onMessage.addListener((req, sender, res) => {
-  console.log(req.performance)
   let currentUrl = getCurrentUrl();
   let currentTab = getCurrentTab();
   let performance = req.performance
