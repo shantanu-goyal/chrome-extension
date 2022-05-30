@@ -1,6 +1,16 @@
 import { NETWORK_FILTERS } from "./constants.js";
 import { getCurrentTab, setNetworkStorage, getNetworkStorage } from "./data.js";
 
+
+/**
+ * Event Handler 
+ * 
+ * Before Request Event is triggered when a request is about to be made, and before headers are available.
+ * 
+ * @param {Object} details 
+ * @returns 
+ */
+
 function beforeRequestEventHandler(details) {
   const { tabId, url, timeStamp, requestId } = details;
   if (tabId !== getCurrentTab()) {
@@ -14,6 +24,16 @@ function beforeRequestEventHandler(details) {
   }
   setNetworkStorage(networkStorage)
 }
+
+/**
+ * Event Handler 
+ * 
+ * Completed Request Event is triggered after a request is completed.
+ * 
+ * @param {Object} details 
+ * @returns 
+ */
+
 
 function completedRequestHandler(details) {
   const { tabId, timeStamp, requestId } = details;
@@ -29,6 +49,16 @@ function completedRequestHandler(details) {
   });
   setNetworkStorage(networkStorage)
 }
+
+/**
+ * Event Handler 
+ * 
+ * Fired when a request could not be processed due to an error: for example, a lack of Internet
+ * connectivity.
+ * 
+ * @param {Object} details 
+ * @returns 
+ */
 
 function errorOccuredHandler(details) {
   const { tabId, requestId } = details;
