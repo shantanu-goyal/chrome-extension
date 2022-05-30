@@ -12,8 +12,6 @@ function beforeRequestEventHandler(details) {
     startTime: timeStamp,
     status: 'Pending'
   }
-  // console.clear()
-  // console.table(networkStorage, ['url', 'status','startTime', 'endTime','duration'])
   setNetworkStorage(networkStorage)
 }
 
@@ -29,8 +27,6 @@ function completedRequestHandler(details) {
     duration: timeStamp - request.startTime,
     status: 'complete',
   });
-  // console.clear()
-  // console.table(networkStorage, ['url', 'status','startTime', 'endTime', 'duration'])
   setNetworkStorage(networkStorage)
 }
 
@@ -45,8 +41,6 @@ function errorOccuredHandler(details) {
     endTime: details.timeStamp,
     status: 'error',
   });
-  // console.clear()
-  // console.table(networkStorage, ['url', 'status','startTime', 'endTime', 'duration'])
   setNetworkStorage(networkStorage)
 }
 

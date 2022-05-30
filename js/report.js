@@ -1,6 +1,15 @@
 import { downloadAsJson, sortTable, downloadAsCSV, showRequests, round } from "./report-utility.js";
+
+// Data stored in the networkStorage object is stored in the localStorage
 let sharedData = JSON.parse(localStorage.getItem('networkStorage'));
 
+
+/**
+ * Converts milliseconds to a human readable format
+ * 
+ * @param {Number} duration 
+ * @returns {String}
+ */
 
 function msToTime(duration) {
   var milliseconds = parseInt((duration % 1000) / 100),
@@ -15,6 +24,14 @@ function msToTime(duration) {
   return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
 }
 
+
+
+/**
+ * Event Listener to handle the sorting of the table
+ * 
+ */
+
+
 function addSortingListener() {
   let headerRow = document.querySelector('.header-row');
   headerRow.addEventListener('click', function (e) {
@@ -24,6 +41,11 @@ function addSortingListener() {
 }
 
 
+/**
+ * Adds an event listener to the download button
+ * 
+ */
+
 function addDownloadButtonHandler() {
   let button = document.querySelector('.download-button');
   let downloadType = document.querySelector('#downloadType')
@@ -32,13 +54,26 @@ function addDownloadButtonHandler() {
   });
 }
 
-function debounce(func, timeout = 300){
+
+/**
+ * Debounce function to handle the search bar. It is used to reduce the number of requests. It fires after * every keyup event and waits for 300ms before firing the function.
+ * 
+ * @param {Function} func 
+ * @param {Number} timeout 
+ * @returns 
+ */
+
+function debounce(func, timeout = 300) {
   let timer;
   return (...args) => {
     clearTimeout(timer);
     timer = setTimeout(() => { func.apply(this, args); }, timeout);
   };
 }
+
+/**
+ * Adds event listeners to the different filters in the report page
+ */
 
 function addFilterListener() {
   let scriptType = document.querySelector('#scriptType');
@@ -57,6 +92,9 @@ function addFilterListener() {
   })
 }
 
+/**
+ * Event Listner to handle the display of the graph
+ */
 function addDisplayGraphListener() {
   let displayGraph = document.querySelector('.display-graph');
   displayGraph.addEventListener('click', () => {
@@ -76,6 +114,10 @@ function addDisplayGraphListener() {
   });
 };
 
+
+/**
+ * Renders the table on the report page
+ */
 
 function renderReport() {
   let { currentUrl, networkStorage } = sharedData;

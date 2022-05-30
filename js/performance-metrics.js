@@ -1,7 +1,13 @@
 import { round } from "./report-utility.js";
 
+/**
+  * Renders the Performance metrics graph on the Network Report Page
+  *
+  * We get the performance metrics from the local storage and render the graph. The performance metrics 
+  * is computed when the page loads and injected into the local storage by the background script.
+  * 
+  */
 function renderPerformanceMetrics() {
-  const promptForUnload = document.querySelector('#prompt-for-unload');
   const redirect = document.querySelector('#redirect');
   const appCache = document.querySelector('#app-cache');
   const dns = document.querySelector('#dns');
