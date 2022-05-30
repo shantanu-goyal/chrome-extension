@@ -6,8 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="js/report.js" type="module"></script>
     <script src="js/report-utility.js" type="module"></script>
-    <script src="js/performance-metrics.js" type="module"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/report.css" />
+    <link rel="stylesheet" href="css/filter.css" />
+    <link
+      rel="stylesheet"
+      href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+    />
     <title>Network Report</title>
   </head>
   <body>
@@ -18,62 +24,64 @@
       </div>
     </header>
     <div class="wrapper">
-      <div class="graph-wrapper">
-        <h2>Performance Metrics</h2>
-        <div class="graph">
-          <div >Prompt for Unload</div>
-          <div >Redirect</div>
-          <div >App Cache</div>
-          <div >DNS</div>
-          <div >TCP</div>
-          <div >Request Response</div>
-          <div >Processing</div>
-          <div >On Load</div>
-        </div>
-        <div class="graph-timings">
-          <div id="prompt-for-unload-timing"></div>
-          <div id="redirect"></div>
-          <div id="app-cache"></div>
-          <div id="dns"></div>
-          <div id="tcp"></div>
-          <div id="request-response"></div>
-          <div id="processing"></div>
-          <div id="on-load"></div>
-        </div>
-      </div>
-      <div class="filters">
-        <h2>Filters</h2>
-        <div>
-          <label>
-            Request Type:
-            <select id="requestType">
-              <option>All</option>
-              <option>JavaScript</option>
-            </select>
-          </label>
-          <label
-            >Script Type:
-            <select id="scriptType">
-              <option>All</option>
-              <option>3rd Party</option>
-            </select>
-          </label>
-          <label
-            >Download Data:
-            <select id="downloadType">
-              <option>JSON</option>
-              <option>CSV</option>
-            </select>
-            <button class="download-button">Download Data</button>
-          </label>
-        </div>
+      <div class="filter-wrapper">
         <input type="text" id="search-bar" placeholder="Search" />
+        <div class="filter-wrapper-inner">
+          <div class="btn-group dropdown-filter">
+            <button
+              type="button"
+              id="dropdown-button"
+              class="btn btn-default dropdown-toggle"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Filter by <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">Request Type</li>
+              <label>
+                <input name="request_type" type="radio" value="All" />All</label
+              >
+
+              <label>
+                <input
+                  name="request_type"
+                  type="radio"
+                  value="JavaScript"
+                />JavaScript</label
+              >
+              <li role="separator" class="divider"></li>
+              <li class="dropdown-header">Script Type</li>
+
+              <label>
+                <input name="script_type" type="radio" value="All" />All</label
+              >
+              <label>
+                <input name="script_type" type="radio" value="3rd Party" />3rd
+                Party</label
+              >
+              <label>
+                <input
+                  name="script_type"
+                  type="radio"
+                  value="Domain Specific"
+                />Domain Specific
+              </label>
+            </ul>
+          </div>
+          <select id="downloadType">
+            <option>JSON</option>
+            <option>CSV</option>
+          </select>
+          <button class="download-button">Download Data</button>
+        </div>
       </div>
       <table class="styled-table">
         <thead>
           <tr class="header-row">
             <th data-index="0">Request Id</th>
-            <th data-index="1">Url</th>
+            <th data-index="1">URL</th>
             <th data-index="2">Status</th>
             <th data-index="3">Start Time</th>
             <th data-index="4">End Time</th>
@@ -82,7 +90,6 @@
         </thead>
         <tbody class="table-body"></tbody>
       </table>
-      <button class="display-graph">Display Graph</button>
     </div>
   </body>
 </html>

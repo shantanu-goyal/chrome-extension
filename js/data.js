@@ -2,7 +2,6 @@ let networkStorage = {}
 let currentTab;
 let currentUrl;
 
-
 // Helps to get the current url
 function getCurrentUrl() {
     return currentUrl;

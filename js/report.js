@@ -4,6 +4,26 @@ import { downloadAsJson, sortTable, downloadAsCSV, showRequests, round } from ".
 let sharedData = JSON.parse(localStorage.getItem('networkStorage'));
 
 
+let requestData = 'All';
+let scriptData = 'All';
+
+function getRequestData() {
+  return requestData;
+}
+
+function setRequestData(data) {
+  requestData = data;
+}
+
+function getScriptData() {
+  return scriptData;
+}
+
+function setScriptData(data) {
+  scriptData = data;
+}
+
+
 /**
  * Converts milliseconds to a human readable format
  * 
@@ -76,43 +96,22 @@ function debounce(func, timeout = 300) {
  */
 
 function addFilterListener() {
-  let scriptType = document.querySelector('#scriptType');
-  let requestType = document.querySelector('#requestType');
   let searchInput = document.querySelector('#search-bar');
-
   searchInput.addEventListener('keyup', (event) => {
-    debounce(() => showRequests(requestType.value, scriptType.value, event.target.value))();
+    debounce(() => showRequests(getRequestData(), getScriptData(), event.target.value))();
   });
 
-  scriptType.addEventListener('change', (event) => {
-    showRequests(requestType.value, event.target.value, searchInput.value)
-  })
-  requestType.addEventListener('change', (event) => {
-    showRequests(event.target.value, scriptType.value, searchInput.value)
-  })
-}
-
-/**
- * Event Listner to handle the display of the graph
- */
-function addDisplayGraphListener() {
-  let displayGraph = document.querySelector('.display-graph');
-  displayGraph.addEventListener('click', () => {
-    let table = document.querySelector('.styled-table');
-    let rows = table.rows;
-    let graphData = [];
-    for (let i = 1; i < rows.length; i++) {
-      if (rows[i].style.display !== 'none' && rows[i].cells[2] !== 'Pending' && rows[i].cells[2] !== 'error') {
-        graphData.push({
-          'url': rows[i].cells[1].innerText,
-          'duration': rows[i].cells[5].innerText
-        });
-      }
+  $('input[type="radio"]').on('click', function (e) {
+    if (e.target.name == 'script_type') {
+      setScriptData(e.target.value);
     }
-    localStorage.setItem('graphData', JSON.stringify(graphData));
-    window.location.href = './graph.html';
+    else if (e.target.name == 'request_type') {
+      setRequestData(e.target.value);
+    }
+    showRequests(getRequestData(), getScriptData(), searchInput.value);
   });
-};
+
+}
 
 
 /**
@@ -160,4 +159,8 @@ renderReport();
 addSortingListener();
 addDownloadButtonHandler();
 addFilterListener()
-addDisplayGraphListener();
+
+
+$(document).on('click', '.dropdown-menu label', function (e) {
+  e.stopPropagation();
+});

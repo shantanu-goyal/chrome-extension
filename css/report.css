@@ -1,12 +1,3 @@
-*{
-    box-sizing: border-box;
-}
-
-.filters h2{
-    text-align: center;
-    font-size: 1.5rem;
-}
-
 body {
   display: flex;
   flex-direction: column;
@@ -17,68 +8,59 @@ body {
 body .wrapper{
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: left;
+  justify-content:center;
+  align-items: center;
 }
 
-body .filters {
-    box-sizing: border-box;
-    margin-top: 50px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    flex-flow: left;
-    height: 200px;
-    margin-bottom: 30px;
+#downloadType{
+    width: 70px;
     border: 1px solid black;
-    padding: 10px;
+    height: 30px;
 }
 
-body .filters *{
-    margin: 0, .5rem;
-    height: 40px;
-   
-}
-
-body .filters label{
-    font-weight: bold;
-    font-size: 1.2em;
-}
-
-body .filters label #search-bar{
-    width:100%;
-    margin: 20px 0px 0px 0px;
-    box-sizing: border-box;
-}
-
-.filters div{
+.filter-wrapper{
+    position: relative;
+    margin-top: 50px;
+    margin-bottom: -10px;
     display: flex;
-    justify-content: space-between;
     flex-direction: row;
+    width: 100%;
+    height: 30px;
+    justify-content: space-between;
+}
+
+.filter-wrapper-inner{
+    display: flex;
+    flex-direction: row;
+    width: 500px;
+    justify-content: right;
     gap:30px;
-    padding: 0;
-    margin: 20px 0px;
 }
 
-.filters div label select{
-    width:150px
-}
-.filters label select {
-    margin: 0px 0px 0px 20px;
-}
 
-option{
-    font-size: 1rem;
+#search-bar{
+    position: relative;
+    bottom: 0px;
+    min-width:600px;
+    height: 30px;
+    box-sizing: border-box;
 }
 
 .download-button{
     background-color: #5cb85c;
     color:#ffffff;
+    height: 30px;
+    width: 100px;
     font-weight: bold;
-    border-radius: 5px;
+    font-size: 1rem;
+    border: 1px solid black;
     cursor: pointer;
     text-align: center;
-    padding: 10px 5px;
+    padding: 0px 10px;
+}
+
+.download-button:hover{
+    background-color: #4cae4c;
 }
 
 .showcase {
@@ -100,7 +82,7 @@ option{
     margin: 25px 0;
     font-size: 0.9em;
     font-family: sans-serif;
-    width: 100%;
+    width: 1200px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -109,7 +91,7 @@ option{
     color: #ffffff;
     text-align: left;
     cursor: pointer;
-    font-size: 0.6rem;
+    font-size: 1rem;
 }
 
 .styled-table th,
@@ -136,51 +118,4 @@ option{
 
 .styled-table tbody tr:last-of-type {
     border-bottom: 2px solid #107EFF;
-}
-
-.graph-wrapper{
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-    margin-top: 20px;
-    border: 1px solid black;
-    padding:10px;   
-}
-
-.graph-wrapper h2{
-    text-align: center;
-    font-size: 1.5rem;
-    margin: 20px auto;
-}
-
-
-.graph,.graph-timings{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-
-.graph div{
-    height: 50px;
-    border: 1px solid black;
-    padding: 10px 10px;
-    background-color: skyblue;
-    font-weight: bold;
-    flex: 1;
-}
-
-.graph-timings div{
-    flex:1;
-}
-
-.display-graph{
-    background-color: #dc3545;
-    color:#ffffff;
-    width: 200px;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    padding: 10px 5px;
 }
