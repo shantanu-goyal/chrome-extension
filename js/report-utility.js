@@ -1,7 +1,6 @@
 let { networkStorage, currentUrl } = JSON.parse(localStorage.getItem('networkStorage'));
 import { thirdPartyWeb } from '../third-party-web/entity-finder-api.js'
-let mainDocumentEntity = thirdPartyWeb.getEntity(currentUrl)
-console.log(currentUrl, mainDocumentEntity)
+let mainDocumentEntity = thirdPartyWeb.getEntity(currentUrl);
 
 /**
   * Checks if the url is a javascript file or not
@@ -17,9 +16,12 @@ function isJSURL(url) {
 function isThirdParty(url) {
   const entity = thirdPartyWeb.getEntity(url);
   if (!entity) return false;
-  console.log(url, entity)
   if (entity === mainDocumentEntity) return false;
   return true;
+}
+
+function isDomainSpecific(url) {
+  return !isThirdParty(url);
 }
 
 
@@ -184,8 +186,14 @@ function isValidRequest(showAllRequests, url) {
  * @param {String} url
  * @return {Boolean}
  */
-function isValidScript(showAllScripts, url) {
-  return (showAllScripts || isThirdParty(url))
+function isValidScript(showAllScripts, url, scriptType) {
+  if (scriptType === 'Domain Specific') {
+    return (showAllScripts || isDomainSpecific(url));
+  }
+  else {
+    return (showAllScripts || isThirdParty(url))
+  }
+
 }
 
 
@@ -204,7 +212,7 @@ export function showRequests(requestType, scriptType, searchValue) {
   let showAllScripts = scriptType === 'All'
   for (let i = 1; i < rows.length; i++) {
     let url = rows[i].children[1].innerText
-    if (isValidRequest(showAllRequests, url) && isValidScript(showAllScripts, url) && url.toLowerCase().indexOf(searchValue) !== -1) {
+    if (isValidRequest(showAllRequests, url) && isValidScript(showAllScripts, url, scriptType) && url.toLowerCase().indexOf(searchValue) !== -1) {
       rows[i].style.display = ''
     }
     else {
