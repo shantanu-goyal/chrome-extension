@@ -15,6 +15,7 @@
   color: #333;
   white-space: nowrap;
   cursor: pointer;
+  margin: 0;
 }
 .dropdown-filter label:hover, .dropdown-filter label:focus {
   color: #262626;
@@ -23,6 +24,7 @@
 }
 .dropdown-filter label input[type=checkbox], .dropdown-filter label input[type=radio] {
   margin-right: 0.5em;
+  cursor: pointer;
 }
 
 .dropdown-actions {
