@@ -236,12 +236,11 @@ export function round(value) {
 
 function recolourTable() {
   let color1 = "#f3f3f3";
-  let color2 = "#ffffff";
   let switchColor = 0;
   let rows = document.querySelector('.styled-table').rows;
   for (let i = 1; i < rows.length; i++) {
     if (rows[i].style.display === '') {
-      rows[i].style.backgroundColor = switchColor ? color1 : color2;
+      rows[i].style.backgroundColor = switchColor ? color1 : "transparent";
       switchColor = !switchColor;
     }
   }
