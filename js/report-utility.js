@@ -163,6 +163,7 @@ export function sortTable(n) {
       }
     }
   }
+  recolourTable();
 }
 
 
@@ -210,6 +211,7 @@ export function showRequests(requestType, scriptType, searchValue) {
       rows[i].style.display = 'none'
     }
   }
+  recolourTable();
 }
 
 
@@ -221,4 +223,18 @@ export function showRequests(requestType, scriptType, searchValue) {
  */
 export function round(value) {
   return Math.round(value * 100) / 100;
+}
+
+
+function recolourTable() {
+  let color1 = "#f3f3f3";
+  let color2 = "#ffffff";
+  let switchColor = 0;
+  let rows = document.querySelector('.styled-table').rows;
+  for (let i = 1; i < rows.length; i++) {
+    if (rows[i].style.display === '') {
+      rows[i].style.backgroundColor = switchColor ? color1 : color2;
+      switchColor = !switchColor;
+    }
+  }
 }

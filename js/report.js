@@ -161,13 +161,16 @@ function renderReport() {
   table.appendChild(tableFragment);
 }
 
+function init() {
+  renderReport();
+  addSortingListener();
+  addDownloadButtonHandler();
+  addFilterListener();
+  addPreviewButtonHandler();
+  $(document).on('click', '.dropdown-menu label', function (e) {
+    e.stopPropagation();
+  });
+}
 
-renderReport();
-addSortingListener();
-addDownloadButtonHandler();
-addFilterListener();
-addPreviewButtonHandler();
+init();
 
-$(document).on('click', '.dropdown-menu label', function (e) {
-  e.stopPropagation();
-});
