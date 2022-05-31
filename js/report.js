@@ -1,8 +1,7 @@
-import { downloadAsJson, sortTable, downloadAsCSV, showRequests, round } from "./report-utility.js";
+import { downloadAsJson, sortTable, downloadAsCSV, showRequests, round, previewAsJSON } from "./report-utility.js";
 
 // Data stored in the networkStorage object is stored in the localStorage
 let sharedData = JSON.parse(localStorage.getItem('networkStorage'));
-
 
 let requestData = 'All';
 let scriptData = 'All';
@@ -75,6 +74,14 @@ function addDownloadButtonHandler() {
 }
 
 
+function addPreviewButtonHandler() {
+  let button = document.querySelector('.preview-button');
+  button.addEventListener('click', () => {
+    previewAsJSON();
+  });
+}
+
+
 /**
  * Debounce function to handle the search bar. It is used to reduce the number of requests. It fires after * every keyup event and waits for 300ms before firing the function.
  * 
@@ -123,7 +130,7 @@ function renderReport() {
   let table = document.querySelector('.table-body');
   let tableFragment = document.createDocumentFragment();
   let title = document.querySelector('.title');
-  title.innerHTML += " " + currentUrl
+  title.innerHTML += " " + `<a href=${currentUrl}>${currentUrl}</a>`
   for (const item in networkStorage) {
     let tr = document.createElement('tr');
     tr.setAttribute('request-id', item)
@@ -154,13 +161,16 @@ function renderReport() {
   table.appendChild(tableFragment);
 }
 
+function init() {
+  renderReport();
+  addSortingListener();
+  addDownloadButtonHandler();
+  addFilterListener();
+  addPreviewButtonHandler();
+  $(document).on('click', '.dropdown-menu label', function (e) {
+    e.stopPropagation();
+  });
+}
 
-renderReport();
-addSortingListener();
-addDownloadButtonHandler();
-addFilterListener()
+init();
 
-
-$(document).on('click', '.dropdown-menu label', function (e) {
-  e.stopPropagation();
-});

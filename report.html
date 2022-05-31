@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="js/report.js" type="module"></script>
     <script src="js/report-utility.js" type="module"></script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery/jquery.min.js"></script>
+    <script src="js/bootstrap/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/report.css" />
     <link rel="stylesheet" href="css/filter.css" />
     <link
@@ -41,9 +41,13 @@
             <ul class="dropdown-menu">
               <li class="dropdown-header">Request Type</li>
               <label>
-                <input name="request_type" type="radio" value="All" />All</label
+                <input
+                  name="request_type"
+                  type="radio"
+                  value="All"
+                  checked="true"
+                />All</label
               >
-
               <label>
                 <input
                   name="request_type"
@@ -55,7 +59,12 @@
               <li class="dropdown-header">Script Type</li>
 
               <label>
-                <input name="script_type" type="radio" value="All" />All</label
+                <input
+                  name="script_type"
+                  type="radio"
+                  value="All"
+                  checked="true"
+                />All</label
               >
               <label>
                 <input name="script_type" type="radio" value="3rd Party" />3rd
@@ -75,6 +84,7 @@
             <option>CSV</option>
           </select>
           <button class="download-button">Download Data</button>
+          <button class="preview-button">Preview JSON Data</button>
         </div>
       </div>
       <table class="styled-table">
