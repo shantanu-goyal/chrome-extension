@@ -5,6 +5,12 @@ body {
   align-items: center;
 }
 
+.title{
+    font-size: 1.75em;
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+
 body .wrapper{
   display: flex;
   flex-direction: column;
@@ -59,8 +65,25 @@ body .wrapper{
     padding: 0px 10px;
 }
 
+.preview-button{
+    background-color: #b26;
+    color:#ffffff;
+    height: 30px;
+    width: 100px;
+    font-weight: bold;
+    font-size: 1rem;
+    border: 1px solid black;
+    cursor: pointer;
+    text-align: center;
+    padding: 0px 10px;
+}
+
 .download-button:hover{
     background-color: #4cae4c;
+}
+
+.preview-button:hover{
+    background-color: #b27 ;
 }
 
 .showcase {

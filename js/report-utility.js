@@ -1,7 +1,7 @@
 let { networkStorage, currentUrl } = JSON.parse(localStorage.getItem('networkStorage'));
-import {thirdPartyWeb} from '../third-party-web/entity-finder-api.js'
+import { thirdPartyWeb } from '../third-party-web/entity-finder-api.js'
 let mainDocumentEntity = thirdPartyWeb.getEntity(currentUrl)
-console.log(currentUrl,mainDocumentEntity)
+console.log(currentUrl, mainDocumentEntity)
 
 /**
   * Checks if the url is a javascript file or not
@@ -29,7 +29,7 @@ function isThirdParty(url) {
   * @param {Number} requestid
   * @return { Boolean }
   */
-function isDownloadableRow(requestId) {
+export function isDownloadableRow(requestId) {
   return document.querySelector(`[request-id='${requestId}']`).style.display !== 'none'
 }
 
@@ -54,6 +54,39 @@ function getCSV() {
   return csvArray;
 }
 
+function getCSVData() {
+  const csvArray = getCSV()
+  const csvContent = "data:text/csv;charset=utf-8," + csvArray.map(e => e.join(",")).join("\n");
+  const encodedURI = encodeURI(csvContent);
+  return encodedURI
+}
+function getJSONData() {
+  let downloadableContent = {}
+  for (const key in networkStorage) {
+    if (!isDownloadableRow(key)) continue
+    downloadableContent[key] = networkStorage[key]
+  }
+  let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(downloadableContent));
+  return dataStr;
+}
+
+
+export function downloadAsJson() {
+  const dataStr = getJSONData();
+  downloadFile('report.json', dataStr)
+}
+
+
+/**
+ *  Function to download the CSV File
+ *  
+ *  It first converts the javaScript object into an array. Then it creates a CSV file and downloads it.
+ * 
+ **/
+export function downloadAsCSV() {
+  const dataStr = getCSVData();
+  downloadFile('report.csv', dataStr);
+}
 
 /**
   * Utility function to download files
@@ -73,31 +106,13 @@ function downloadFile(filename, downloadURL) {
 }
 
 
-/**
- *  Function to download the CSV File
- *  
- *  It first converts the javaScript object into an array. Then it creates a CSV file and downloads it.
- * 
- **/
-export function downloadAsCSV() {
-  const csvArray = getCSV()
-  const csvContent = "data:text/csv;charset=utf-8," + csvArray.map(e => e.join(",")).join("\n");
-  const encodedURI = encodeURI(csvContent)
-  downloadFile('report.csv', encodedURI)
+function preview(dataStr) {
+  var win = window.open();
+  win.document.write('<iframe src="' + dataStr + '"frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
 }
 
-/**
-  * Function to download the JSON File
-  *
-  */
-export function downloadAsJson() {
-  let downloadableContent = {}
-  for (const key in networkStorage) {
-    if (!isDownloadableRow(key)) continue
-    downloadableContent[key] = networkStorage[key]
-  }
-  let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(downloadableContent));
-  downloadFile('report.json', dataStr)
+export function previewAsJSON() {
+  preview(getJSONData());
 }
 
 /**
