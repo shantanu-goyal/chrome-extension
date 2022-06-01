@@ -16,6 +16,9 @@ function isThirdParty(url) {
   return true;
 }
 
+function isDomainSpecific(url){
+  return !isThirdParty(url);
+}
 
 /**
   * Checks if the row in the table can be downloaded or not
