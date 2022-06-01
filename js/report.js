@@ -1,4 +1,4 @@
-import { downloadAsJson, sortTable, downloadAsCSV, showRequests, round, previewAsJSON } from "./report-utility.js";
+import { downloadAsJson, sortTable, downloadAsCSV, showRequests, round, previewAsJSON , renderHeaders} from "./report-utility.js";
 
 // Data stored in the networkStorage object is stored in the localStorage
 let sharedData = JSON.parse(localStorage.getItem('networkStorage'));
@@ -125,6 +125,7 @@ function addFilterListener() {
  */
 
 function renderReport() {
+  renderHeaders()
   let { currentUrl, networkStorage } = sharedData;
   let table = document.querySelector('.table-body');
   let tableFragment = document.createDocumentFragment();

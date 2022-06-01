@@ -17,12 +17,61 @@
     <title>Network Report</title>
   </head>
   <body>
+    
+
     <div class="showcase"></div>
     <header>
       <div id="header-content">
         <h1 class="title">Network Report for:-</h1>
       </div>
+      <div class="header-wrapper">
+        <div class="header-block" id="requestCount">
+          <div class="block-name">Requests</div>
+          <div class="block-value"></div>
+        </div>
+        <div class="header-block" id="domainCount">
+          <div class="block-name">Domains</div>
+          <div class="block-value"></div>
+        </div>
+        <div class="header-block" id="subDomainCount">
+          <div class="block-name">Subdomains Of Host</div>
+          <div class="block-value"></div>
+        </div>
+        <div class="header-block" id="hostRequests">
+          <div class="block-name">Requests to Host</div>
+          <div class="block-value"></div>
+        </div>
+        <div class="header-block" id="subDomainRequests">
+          <div class="block-name">Host SubDomain Requests</div>
+          <div class="block-value"></div>
+        </div>
+        <div class="header-block" id="totalTime">
+          <div class="block-name">Total time</div>
+          <div class="block-value"></div>
+        </div>
+        <div class="header-block" id="firstByte">
+          <div class="block-name">Time to First Byte</div>
+          <div class="block-value"></div>
+        </div>
+        <div class="header-block" id="contentLoadTime">
+          <div class="block-name">DOM Content Loading</div>
+          <div class="block-value"></div>
+        </div>
+        <div class="header-block" id="processTime">
+          <div class="block-name">DOM Processing</div>
+          <div class="block-value"></div>
+        </div>
+        <div class="header-block" id="slowestRequest">
+          <div class="block-name">Slowest Network Request</div>
+          <div class="block-value"></div>
+        </div> 
+      </div>
+      <div class="header-block" id="avgRequestTime">
+        <div class="block-name">Average Request Time</div>
+        <div class="block-value"></div>
+      </div> 
     </header>
+
     <div class="wrapper">
       <div class="filter-wrapper">
         <input type="text" id="search-bar" placeholder="Search" />
