@@ -172,7 +172,7 @@ export function sortTable(n) {
  * @return {Boolean}
  */
 function isValidRequest(showAllRequests, row) {
-  return (showAllRequests || row.getAttribute("data-type") === 'script')
+  return (showAllRequests || row.children[2].innerText === 'script')
 }
 
 /**Function to show/hide the scripts based on the hostname
