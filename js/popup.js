@@ -18,7 +18,7 @@ function start(url) {
     data.perfTiming = window.performance.timing;
     console.log(data);
     chrome.runtime.sendMessage(myExtId, { performance: windowPerformance, data, url });
-  }, 4000);
+  }, 3000);
 }
 
 
@@ -48,6 +48,10 @@ function handleDuplicateButtonClick(event) {
   * 
   */
 function handleAnalyseButtonClick() {
+  setTimeout(() => {
+    const generateReport = document.querySelector('#generateReport');
+    generateReport.classList.toggle('btn-disable');
+  }, 4000);
   const button = document.querySelector('#analyseNetwork');
   button.innerHTML = "Analysing...";
   button.classList.toggle('btn-disable');
