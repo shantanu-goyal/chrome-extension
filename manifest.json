@@ -22,7 +22,8 @@
     "storage",
     "activeTab",
     "tabs",
-    "webRequest"
+    "webRequest",
+    "scripting"
   ],
   "content_scripts": [
     {

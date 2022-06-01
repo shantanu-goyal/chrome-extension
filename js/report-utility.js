@@ -16,7 +16,7 @@ function isThirdParty(url) {
   return true;
 }
 
-function isDomainSpecific(url){
+function isDomainSpecific(url) {
   return !isThirdParty(url);
 }
 
@@ -130,20 +130,20 @@ export function sortTable(n) {
       x = rows[i].getElementsByTagName("TD")[n];
       y = rows[i + 1].getElementsByTagName("TD")[n];
       if (dir == "asc") {
-        if ((n == 1 || n == 2 || n == 3 || n == 4) && (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase())) {
+        if ((n == 1 || n == 2 || n == 3 || n == 4 || n == 5) && (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase())) {
           shouldSwitch = true;
           break;
         }
-        if ((n == 0 || n == 5) && (Number(x.innerHTML) > Number(y.innerHTML))) {
+        if ((n == 0 || n == 6) && (Number(x.innerHTML) > Number(y.innerHTML))) {
           shouldSwitch = true;
           break;
         }
       } else if (dir == "desc") {
-        if ((n == 1 || n == 2 || n == 3 || n == 4) && (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase())) {
+        if ((n == 1 || n == 2 || n == 3 || n == 4 || n == 5) && (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase())) {
           shouldSwitch = true;
           break;
         }
-        if ((n == 0 || n == 5) && (Number(x.innerHTML) < Number(y.innerHTML))) {
+        if ((n == 0 || n == 6) && (Number(x.innerHTML) < Number(y.innerHTML))) {
           shouldSwitch = true;
           break;
         }
@@ -172,7 +172,7 @@ export function sortTable(n) {
  * @return {Boolean}
  */
 function isValidRequest(showAllRequests, row) {
-  return (showAllRequests || row.getAttribute("data-type")==='script')
+  return (showAllRequests || row.getAttribute("data-type") === 'script')
 }
 
 /**Function to show/hide the scripts based on the hostname

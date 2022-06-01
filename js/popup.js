@@ -1,5 +1,5 @@
-import { getCurrentTab, getCurrentUrl, getNetworkStorage, setCurrentTab, setCurrentUrl, setNetworkStorage } from "./data.js";
-
+import { setCurrentTab, setCurrentUrl, setNetworkStorage } from "./data.js";
+import { start } from "./content-script.js";
 
 const duplicateTab = document.querySelector('#duplicateTab');
 const analyseNetwork = document.querySelector('#analyseNetwork');
@@ -33,15 +33,16 @@ function handleDuplicateButtonClick(event) {
   * 
   */
 function handleAnalyseButtonClick() {
-  chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
-    if (!tabs || !tabs.length) return;
-    analyseNetwork.classList.toggle('btn-disable')
+  chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
     setCurrentTab(tabs[0].id)
-    setNetworkStorage({})
     setCurrentUrl(tabs[0].url)
-    chrome.tabs.reload(tabs[0].id);
-  });
-}
+    setNetworkStorage({});
+    chrome.scripting.executeScript({
+      target: { tabId: tabs[0].id, allFrames: true },
+      func: start
+    });
+  })
+};
 
 /**
   * Handles the Generate Report button click event
@@ -73,14 +74,31 @@ generateReport.addEventListener('click', generateReportButtonClick);
   */
 
 chrome.runtime.onMessage.addListener((req, sender, res) => {
-  let currentUrl = getCurrentUrl();
-  let currentTab = getCurrentTab();
+  console.log(req.data);
   let performance = req.performance
   localStorage.setItem('performance', JSON.stringify(performance));
   setTimeout(() => {
-    let networkStorage = getNetworkStorage();
-    localStorage.setItem('networkStorage', JSON.stringify({ currentUrl, currentTab, networkStorage }));
-    generateReport.classList.toggle('btn-disable');
+    let networkStorage = {};
+    for (const item in req.data.resources) {
+      let resource = req.data.resources[item];
+      let requestId = item;
+      let url = resource.name;
+      let type = resource.initiatorType;
+      let startTime = resource.startTime;
+      let endTime = resource.responseEnd;
+      let duration = resource.duration;
+      networkStorage[requestId] = {
+        url,
+        type,
+        startTime,
+        endTime,
+        duration,
+        status: "complete"
+      }
+    }
+    setNetworkStorage(networkStorage);
+    setCurrentUrl(req.url);
+    localStorage.setItem('networkStorage', JSON.stringify({ currentUrl: req.url, networkStorage }));
   }, 3000);
 });
 

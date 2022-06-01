@@ -1,7 +1,6 @@
 import { downloadAsJson, sortTable, downloadAsCSV, showRequests, round, previewAsJSON } from "./report-utility.js";
 
 // Data stored in the networkStorage object is stored in the localStorage
-let sharedData = JSON.parse(localStorage.getItem('networkStorage'));
 
 let requestData = 'All';
 let scriptData = 'All';
@@ -31,16 +30,7 @@ function setScriptData(data) {
  */
 
 function msToTime(duration) {
-  var milliseconds = parseInt((duration % 1000) / 100),
-    seconds = Math.floor((duration / 1000) % 60),
-    minutes = Math.floor(((duration / (1000 * 60)) + 30) % 60),
-    hours = Math.floor(((duration / (1000 * 60 * 60)) + 5) % 24);
-
-  hours = (hours < 10) ? "0" + hours : hours;
-  minutes = (minutes < 10) ? "0" + minutes : minutes;
-  seconds = (seconds < 10) ? "0" + seconds : seconds;
-
-  return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+  return round(duration / 1000);
 }
 
 
@@ -78,6 +68,13 @@ function addPreviewButtonHandler() {
   let button = document.querySelector('.preview-button');
   button.addEventListener('click', () => {
     previewAsJSON();
+  });
+}
+
+function addRefreshButtonHandler() {
+  let button = document.querySelector('.refresh-button');
+  button.addEventListener('click', () => {
+    renderReport();
   });
 }
 
@@ -125,17 +122,19 @@ function addFilterListener() {
  */
 
 function renderReport() {
+  let sharedData = JSON.parse(localStorage.getItem('networkStorage'));
   let { currentUrl, networkStorage } = sharedData;
   let table = document.querySelector('.table-body');
   let tableFragment = document.createDocumentFragment();
-  let title = document.querySelector('.title');
-  title.innerHTML += " " + `<a href=${currentUrl}>${currentUrl}</a>`
+  let title = document.querySelector('.title');;
+  title.innerHTML = "Network Report for:- " + `<a href=${currentUrl}>${currentUrl}</a>`
   for (const item in networkStorage) {
     let tr = document.createElement('tr');
     tr.setAttribute('request-id', item)
     tr.setAttribute('data-type', networkStorage[item].type);
     let tdReportId = document.createElement('td');
     let tdUrl = document.createElement('td');
+    let tdType = document.createElement('td');
     let tdStatus = document.createElement('td');
     let tdStartTime = document.createElement('td');
     let tdEndTime = document.createElement('td');
@@ -144,6 +143,7 @@ function renderReport() {
       networkStorage[item].duration = 0;
     }
     tdReportId.innerText = item;
+    tdType.innerText = networkStorage[item].type;
     tdUrl.innerText = networkStorage[item].url;
     tdUrl.title = networkStorage[item].url;
     tdStatus.innerText = networkStorage[item].status;
@@ -152,19 +152,21 @@ function renderReport() {
     tdDuration.innerText = round(networkStorage[item].duration);
     tr.appendChild(tdReportId);
     tr.appendChild(tdUrl);
+    tr.appendChild(tdType);
     tr.appendChild(tdStatus);
     tr.appendChild(tdStartTime);
     tr.appendChild(tdEndTime);
     tr.appendChild(tdDuration);
     tableFragment.appendChild(tr);
   }
-  table.appendChild(tableFragment);
+  table.replaceChildren(tableFragment);
 }
 
 function init() {
   renderReport();
   addSortingListener();
   addDownloadButtonHandler();
+  addRefreshButtonHandler();
   addFilterListener();
   addPreviewButtonHandler();
   $(document).on('click', '.dropdown-menu label', function (e) {
@@ -173,4 +175,3 @@ function init() {
 }
 
 init();
-
