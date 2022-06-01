@@ -1,10 +1,25 @@
 import { setCurrentTab, setCurrentUrl, setNetworkStorage } from "./data.js";
-import { start } from "./content-script.js";
 
 const duplicateTab = document.querySelector('#duplicateTab');
 const analyseNetwork = document.querySelector('#analyseNetwork');
 const generateReport = document.querySelector('#generateReport');
 
+
+
+function start(url) {
+  const myExtId = chrome.runtime.id;
+  const data = {
+    resources: [],
+    perfTiming: []
+  };
+  setInterval(() => {
+    let windowPerformance = window.performance.getEntriesByName(url);
+    data.resources = window.performance.getEntriesByType('resource');
+    data.perfTiming = window.performance.timing;
+    console.log(data);
+    chrome.runtime.sendMessage(myExtId, { performance: windowPerformance, data, url });
+  }, 4000);
+}
 
 
 /**
@@ -33,13 +48,17 @@ function handleDuplicateButtonClick(event) {
   * 
   */
 function handleAnalyseButtonClick() {
+  const button = document.querySelector('#analyseNetwork');
+  button.innerHTML = "Analysing...";
+  button.classList.toggle('btn-disable');
   chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
     setCurrentTab(tabs[0].id)
     setCurrentUrl(tabs[0].url)
     setNetworkStorage({});
     chrome.scripting.executeScript({
-      target: { tabId: tabs[0].id, allFrames: true },
-      func: start
+      target: { tabId: tabs[0].id },
+      func: start,
+      args: [tabs[0].url]
     });
   })
 };
@@ -74,32 +93,26 @@ generateReport.addEventListener('click', generateReportButtonClick);
   */
 
 chrome.runtime.onMessage.addListener((req, sender, res) => {
-  console.log(req.data);
-  let performance = req.performance
-  localStorage.setItem('performance', JSON.stringify(performance));
-  setTimeout(() => {
-    let networkStorage = {};
-    for (const item in req.data.resources) {
-      let resource = req.data.resources[item];
-      let requestId = item;
-      let url = resource.name;
-      let type = resource.initiatorType;
-      let startTime = resource.startTime;
-      let endTime = resource.responseEnd;
-      let duration = resource.duration;
-      networkStorage[requestId] = {
-        url,
-        type,
-        startTime,
-        endTime,
-        duration,
-        status: "complete"
-      }
+  console.log(req);
+  let networkStorage = {};
+  for (const item in req.data.resources) {
+    let resource = req.data.resources[item];
+    let requestId = item;
+    let url = resource.name;
+    let type = resource.initiatorType;
+    let startTime = resource.startTime;
+    let endTime = resource.responseEnd;
+    let duration = resource.duration;
+    networkStorage[requestId] = {
+      url,
+      type,
+      startTime,
+      endTime,
+      duration,
+      status: "complete"
     }
-    setNetworkStorage(networkStorage);
-    setCurrentUrl(req.url);
-    localStorage.setItem('networkStorage', JSON.stringify({ currentUrl: req.url, networkStorage }));
-  }, 3000);
+  }
+  localStorage.setItem('networkStorage', JSON.stringify({ currentUrl: req.url, networkStorage }));
 });
 
 
