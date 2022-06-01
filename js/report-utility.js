@@ -3,25 +3,17 @@ import { thirdPartyWeb } from '../third-party-web/entity-finder-api.js'
 let mainDocumentEntity = thirdPartyWeb.getEntity(currentUrl);
 
 /**
-  * Checks if the url is a javascript file or not
-  * 
-  * @param {String} url
-  * @return {Boolean}
-  */
-function isJSURL(url) {
-  let pathname = new URL(url).pathname
-  return /(\/|\.)js$/.test(pathname)
-}
-
+ * Checks whether a url is third Party with respect to current domain
+ * @param {string} url 
+ * @returns whether the url is third Party with respect to current domain
+ */
 function isThirdParty(url) {
   const entity = thirdPartyWeb.getEntity(url);
+  // If entity not in dataset
   if (!entity) return false;
+  // Entities don't match then not third party
   if (entity === mainDocumentEntity) return false;
   return true;
-}
-
-function isDomainSpecific(url) {
-  return !isThirdParty(url);
 }
 
 
@@ -176,8 +168,8 @@ export function sortTable(n) {
  * @param {String} hostname
  * @return {Boolean}
  */
-function isValidRequest(showAllRequests, url) {
-  return (showAllRequests || isJSURL(url))
+function isValidRequest(showAllRequests, row) {
+  return (showAllRequests || row.getAttribute("data-type")==='script')
 }
 
 /**Function to show/hide the scripts based on the hostname
@@ -212,7 +204,7 @@ export function showRequests(requestType, scriptType, searchValue) {
   let showAllScripts = scriptType === 'All'
   for (let i = 1; i < rows.length; i++) {
     let url = rows[i].children[1].innerText
-    if (isValidRequest(showAllRequests, url) && isValidScript(showAllScripts, url, scriptType) && url.toLowerCase().indexOf(searchValue) !== -1) {
+    if (isValidRequest(showAllRequests, rows[i]) && isValidScript(showAllScripts, url, scriptType) && url.toLowerCase().indexOf(searchValue) !== -1) {
       rows[i].style.display = ''
     }
     else {

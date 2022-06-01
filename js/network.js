@@ -36,7 +36,7 @@ function beforeRequestEventHandler(details) {
 
 
 function completedRequestHandler(details) {
-  const { tabId, timeStamp, requestId } = details;
+  const { tabId, timeStamp, requestId, type } = details;
   if (tabId !== getCurrentTab()) {
     return;
   }
@@ -46,6 +46,7 @@ function completedRequestHandler(details) {
     endTime: timeStamp,
     duration: timeStamp - request.startTime,
     status: 'complete',
+    type
   });
   setNetworkStorage(networkStorage)
 }

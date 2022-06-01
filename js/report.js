@@ -120,7 +120,6 @@ function addFilterListener() {
 
 }
 
-
 /**
  * Renders the table on the report page
  */
@@ -134,6 +133,7 @@ function renderReport() {
   for (const item in networkStorage) {
     let tr = document.createElement('tr');
     tr.setAttribute('request-id', item)
+    tr.setAttribute('data-type', networkStorage[item].type);
     let tdReportId = document.createElement('td');
     let tdUrl = document.createElement('td');
     let tdStatus = document.createElement('td');
