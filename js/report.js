@@ -1,4 +1,4 @@
-import { downloadAsJson, sortTable, downloadAsCSV, showRequests, round, previewAsJSON } from "./report-utility.js";
+import { downloadAsJson, sortTable, downloadAsCSV, showRequests, round, previewAsJSON, renderHeaders } from "./report-utility.js";
 
 // Data stored in the networkStorage object is stored in the localStorage
 
@@ -78,7 +78,7 @@ function getData(url, tabId) {
     resources: [],
     perfTiming: []
   };
-  let windowPerformance = window.performance.getEntriesByName(url);
+  let windowPerformance = window.performance.timing;
   data.resources = window.performance.getEntriesByType('resource');
   data.perfTiming = window.performance.timing;
   let networkStorage = {};
@@ -203,6 +203,7 @@ function renderReport() {
 }
 
 function init() {
+  renderHeaders();
   renderReport();
   addSortingListener();
   addDownloadButtonHandler();

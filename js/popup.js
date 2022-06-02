@@ -11,7 +11,7 @@ function start(url) {
     resources: [],
     perfTiming: []
   };
-  let windowPerformance = window.performance.getEntriesByName(url);
+  let windowPerformance = window.performance.timing;
   data.resources = window.performance.getEntriesByType('resource');
   data.perfTiming = window.performance.timing;
   console.log(data);

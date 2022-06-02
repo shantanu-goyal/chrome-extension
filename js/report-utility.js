@@ -1,12 +1,53 @@
-let { networkStorage, currentUrl } = JSON.parse(localStorage.getItem('networkStorage'));
+let { networkStorage, currentUrl, performance } = JSON.parse(localStorage.getItem('networkStorage'));
 import { thirdPartyWeb } from '../third-party-web/entity-finder-api.js'
 let mainDocumentEntity = thirdPartyWeb.getEntity(currentUrl);
-
 /**
  * Checks whether a url is third Party with respect to current domain
  * @param {string} url 
  * @returns whether the url is third Party with respect to current domain
  */
+
+let requestByDomain = {}
+let currentDomain = new URL(currentUrl).hostname
+
+
+
+function getSubDomains() {
+  let currentSubDomain = currentDomain.split('.').slice(-2).join('.')
+  return Object.keys(requestByDomain).filter(key => {
+
+    return currentSubDomain === key.split('.').slice(-2).join('.')
+  })
+}
+
+function getAverageRequestTime() {
+  if (networkStorage.length === 0) return 0
+  let sum = Object.keys(networkStorage).reduce(function (previous, key) {
+    if (isNaN(networkStorage[key].duration)) return previous
+    return previous + networkStorage[key].duration;
+  }, 0);
+  return sum / Object.keys(networkStorage).length;
+}
+
+function createRequestByDomain() {
+  Object.keys(networkStorage).forEach((key) => {
+    let domain = new URL(networkStorage[key].url).host
+    if (domain in requestByDomain) return
+    requestByDomain[domain] = Object.keys(networkStorage).reduce((previous, key) => {
+      return new URL(networkStorage[key].url).host === domain ? previous + 1 : previous
+    }, 0)
+  })
+}
+
+function getSlowestRequestTime() {
+  return Object.keys(networkStorage).reduce((previous, key) => {
+    if (isNaN(networkStorage[key].duration)) return previous
+    return Math.max(previous, networkStorage[key].duration)
+  }, 0)
+}
+
+
+
 function isThirdParty(url) {
   const entity = thirdPartyWeb.getEntity(url);
   // If entity not in dataset
@@ -240,3 +281,35 @@ function recolourTable() {
     }
   }
 }
+
+
+export function renderHeaders() {
+  let perfEntries = performance;
+  console.log(perfEntries);
+  let requestCount = document.querySelector('#requestCount');
+  requestCount.querySelector('.block-value').innerHTML = Object.keys(networkStorage).length
+  let domainCount = document.querySelector('#domainCount')
+  createRequestByDomain()
+  domainCount.querySelector('.block-value').innerHTML = Object.keys(requestByDomain).length
+  let subDomainCount = document.querySelector('#subDomainCount')
+  let subDomains = getSubDomains()
+  subDomainCount.querySelector('.block-value').innerHTML = subDomains.length - 1
+  let hostRequests = document.querySelector('#hostRequests')
+  hostRequests.querySelector('.block-value').innerHTML = requestByDomain[currentDomain]
+  let subDomainRequests = document.querySelector('#subDomainRequests')
+  subDomainRequests.querySelector('.block-value').innerHTML = subDomains.reduce((previous, subDomain) => {
+    return previous + requestByDomain[subDomain]
+  }, 0)
+  let totalTime = document.querySelector('#totalTime')
+  totalTime.querySelector('.block-value').innerHTML = round(perfEntries.loadEventEnd - perfEntries.navigationStart) + ' ms'
+  let firstByte = document.querySelector('#firstByte')
+  firstByte.querySelector('.block-value').innerHTML = round(perfEntries.responseStart - perfEntries.navigationStart) + ' ms'
+  let contentLoadTime = document.querySelector('#contentLoadTime')
+  contentLoadTime.querySelector('.block-value').innerHTML = round(perfEntries.domContentLoadedEventStart - perfEntries.domLoading) + 'ms'
+  let processTime = document.querySelector('#processTime')
+  processTime.querySelector('.block-value').innerHTML = round(perfEntries.domComplete - perfEntries.domLoading) + 'ms'
+  let slowestRequest = document.querySelector('#slowestRequest')
+  slowestRequest.querySelector('.block-value').innerHTML = round(getSlowestRequestTime()) + 'ms'
+  let avgRequestTime = document.querySelector('#avgRequestTime')
+  avgRequestTime.querySelector('.block-value').innerHTML = round(getAverageRequestTime()) + 'ms'
+} 

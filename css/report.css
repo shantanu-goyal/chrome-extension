@@ -1,14 +1,16 @@
 body {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  padding: 1em;
+  word-wrap:break-word;
+  text-overflow: ellipsis;
   align-items: center;
 }
 
 .title{
     font-size: 1.75em;
     font-weight: bold;
-    margin-bottom: 1em;
+    margin: 1em;
 }
 
 body .wrapper{
@@ -154,4 +156,26 @@ body .wrapper{
 
 .styled-table tbody tr:last-of-type {
     border-bottom: 2px solid #107EFF;
+}
+
+
+.header-wrapper {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    margin: 1em
+}
+
+.header-block {
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    align-items: center;
+    font-weight: bold;
+    background:#dddddd;
+    margin: 1em;
+}
+
+.block-value{
+    font-size: 3em;
 }
