@@ -1,9 +1,8 @@
-import { setCurrentTab, setCurrentUrl, setNetworkStorage } from "./data.js";
+import { getCurrentTab, setCurrentTab, setCurrentUrl, setNetworkStorage } from "./data.js";
 
 const duplicateTab = document.querySelector('#duplicateTab');
 const analyseNetwork = document.querySelector('#analyseNetwork');
 const generateReport = document.querySelector('#generateReport');
-
 
 
 function start(url) {
@@ -12,13 +11,11 @@ function start(url) {
     resources: [],
     perfTiming: []
   };
-  setInterval(() => {
-    let windowPerformance = window.performance.getEntriesByName(url);
-    data.resources = window.performance.getEntriesByType('resource');
-    data.perfTiming = window.performance.timing;
-    console.log(data);
-    chrome.runtime.sendMessage(myExtId, { performance: windowPerformance, data, url });
-  }, 3000);
+  let windowPerformance = window.performance.getEntriesByName(url);
+  data.resources = window.performance.getEntriesByType('resource');
+  data.perfTiming = window.performance.timing;
+  console.log(data);
+  chrome.runtime.sendMessage(myExtId, { performance: windowPerformance, data, url });
 }
 
 
@@ -48,10 +45,6 @@ function handleDuplicateButtonClick(event) {
   * 
   */
 function handleAnalyseButtonClick() {
-  setTimeout(() => {
-    const generateReport = document.querySelector('#generateReport');
-    generateReport.classList.toggle('btn-disable');
-  }, 4000);
   const button = document.querySelector('#analyseNetwork');
   button.innerHTML = "Analysing...";
   button.classList.toggle('btn-disable');
@@ -99,6 +92,7 @@ generateReport.addEventListener('click', generateReportButtonClick);
 chrome.runtime.onMessage.addListener((req, sender, res) => {
   console.log(req);
   let networkStorage = {};
+  let currentTab = getCurrentTab();
   for (const item in req.data.resources) {
     let resource = req.data.resources[item];
     let requestId = item;
@@ -116,7 +110,5 @@ chrome.runtime.onMessage.addListener((req, sender, res) => {
       status: "complete"
     }
   }
-  localStorage.setItem('networkStorage', JSON.stringify({ currentUrl: req.url, networkStorage }));
+  localStorage.setItem('networkStorage', JSON.stringify({ currentUrl: req.url, networkStorage, performance: req.performance, tabId: currentTab }));
 });
-
-

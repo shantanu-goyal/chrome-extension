@@ -71,10 +71,50 @@ function addPreviewButtonHandler() {
   });
 }
 
+
+
+function getData(url, tabId) {
+  const data = {
+    resources: [],
+    perfTiming: []
+  };
+  let windowPerformance = window.performance.getEntriesByName(url);
+  data.resources = window.performance.getEntriesByType('resource');
+  data.perfTiming = window.performance.timing;
+  let networkStorage = {};
+  for (const item in data.resources) {
+    let resource = data.resources[item];
+    let requestId = item;
+    let url = resource.name;
+    let type = resource.initiatorType;
+    let startTime = resource.startTime;
+    let endTime = resource.responseEnd;
+    let duration = resource.duration;
+    networkStorage[requestId] = {
+      url,
+      type,
+      startTime,
+      endTime,
+      duration,
+      status: "complete"
+    }
+  }
+  console.log(data);
+  localStorage.setItem('networkStorage', JSON.stringify({ currentUrl: url, networkStorage, performance: windowPerformance, tabId }));
+}
+
 function addRefreshButtonHandler() {
   let button = document.querySelector('.refresh-button');
   button.addEventListener('click', () => {
-    renderReport();
+    chrome.tabs.query({}, tabs => {
+      const { tabId, currentUrl } = JSON.parse(localStorage.getItem('networkStorage'));
+      chrome.scripting.executeScript({
+        target: { tabId },
+        func: getData,
+        args: [currentUrl, tabId]
+      });
+      renderReport();
+    });
   });
 }
 
