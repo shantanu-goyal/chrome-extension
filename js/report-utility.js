@@ -281,8 +281,6 @@ function recolourTable() {
 }
 
 
-console.log("Hello");
-
 export function renderHeaders(){
 
   let requestCount = document.querySelector('#requestCount');  
